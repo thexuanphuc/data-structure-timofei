@@ -15,7 +15,7 @@ public:
         age = age_;
         memory = new double[100];
     }
-    Student()
+    Student()//default initialization
     {
         name = "phuc";
         group = "lop 1";
