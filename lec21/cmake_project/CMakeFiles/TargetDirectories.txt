@@ -1,0 +1,4 @@
+/home/phuc/working/data_algorithm/lec21/cmake_project/CMakeFiles/my_program.dir
+/home/phuc/working/data_algorithm/lec21/cmake_project/CMakeFiles/my_library.dir
+/home/phuc/working/data_algorithm/lec21/cmake_project/CMakeFiles/edit_cache.dir
+/home/phuc/working/data_algorithm/lec21/cmake_project/CMakeFiles/rebuild_cache.dir
