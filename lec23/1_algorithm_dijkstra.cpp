@@ -194,7 +194,6 @@ void print_path(int source, int destiny, std::vector<std::vector<int>> previ) { 
         std::cout<< path.front()<<"\t";
         path.pop();
     }
-    // std::cout<<"with sum weigh = "<<floy_weigh[source][destiny] << std::endl;
     std::cout<< std::endl;
 }
 

@@ -34,14 +34,18 @@ public :
     // always write with 0; if we dont write =0, then it not require to write implementation in derived class
     // we only write this virtual keyword in base class, them these function are implicitly virtual and overridable
     virtual void input() = 0;
-    virtual void print() const = 0;
+    // fuction print means convert to this type, then print it out
+    virtual void print_list_edges() const = 0;
+    virtual void print_adjacency_matrix() const = 0;
+    virtual void print_adjacency_list() const = 0;
     
 };
 // using list of edges
+// 
 class graph_storage_1 : public abstract_graph
 {
 public:
-    // graph_storage_1() default case constructor
+    // graph_storage_1() default case (constructor)
 
     // override indicate that this function input in this derived class will override input function in abstact_graph
     void input() override
@@ -49,15 +53,15 @@ public:
         list_of_edges.clear();
         std::cout<<"enter list of edges, pass by enter!!\n" ;
         int first, second;
-        int count = 0; 
+        int count = 0;
         while(count < number_of_vertices){
             std::cin >> first >> second;
-            list_of_edges.insert(std::make_pair(first, second));
+            list_of_edges.insert(std::set<std::pait<int, int>>::value_type(first, second));
             count ++;
         }
     };
 
-    void print() const override
+    void print_list_edges() const override
     {
         // print out edges
         std::cout<< "edges are: \n";
@@ -66,8 +70,14 @@ public:
         }
         std::cout << "\n";
     };
+    void print_adjacency_matrix() const override
+    {
+        
+    };
 };
 // using adjacency matrix
+// this method allows quickly lookups whether there is an edge between 2 vertices;
+// but this method is not very memory-efficient, especially for sparse graph(relatively few edges)
 class graph_storage_2 : public graph_storage_1
 {
 public:
@@ -105,6 +115,7 @@ public:
 };
 
 //using adjacency list
+// memory efficient(especially for sparse graph) but less effective when traversing the edges
 class graph_storage_3 : public graph_storage_2
 {
 
