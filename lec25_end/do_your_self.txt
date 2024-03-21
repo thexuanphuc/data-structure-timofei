@@ -1,0 +1,23 @@
+1) компонент сильный -> mean the part of graph that oriented connected
+    -> if that part is only connected with non-oriented, then its called слабый компонент
+2) проверка на дуальности
+3) жадные Алгоритмы 
+4) Фильтр Блума
+    the bloom filter can say a element
+        +probally existed in the our set
+        +definitely didnt existed in our set
+        -> mean we can reduce space, time complexity, only recheck if the answer from bloom filter is yes!!
+        * proof: when creating a data storage, lets say its an array<bool>[m]. in that array we save the result of k diffirent 
+                hash function, then for each inserting, we acumulate the result to array(mark it to true). 
+                -> if the result when checking some element in array is false
+                    definitely that element is not existed in our array
+                -> if the result when checking some element in array is true
+                    may be its exist, may be not(may be it just the combined result of some input)
+                        -> the more element exist in our array, the more frequence that we see bloom filter return the false
+                            result, when actually element is not existed, but the combination of all existed input creat that true return
+5) ABL tree
+6) red-black tree ***
+7) Понятие регулярного языка. Представление регулярного языка посредством регулярного выражения, символы-джокеры (*, ?, + и т.п.). Преобразование детерминированного конечного автомата в регулярное выражение.
+8)  Топологическая сортировка DAG.
+9)  Построение минимального остовного дерева. Алгоритм Крускала.
+10)Выделение компонент связности обходом в ширину.
