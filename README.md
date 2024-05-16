@@ -1,2 +1,3 @@
 # data structure and algorithm
-course in c++ by Хирьянова Т.Ф. МФТИ (ФОПФ) 2020
+algorithm implementation 
+based on course in c++ by Хирьянова Т.Ф. МФТИ (ФОПФ) 2020
