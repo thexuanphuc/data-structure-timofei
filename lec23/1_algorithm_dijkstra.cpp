@@ -120,7 +120,7 @@ std::vector<std::vector<int>> graph_model::floy_warshall() const{
             floy_weigh[i][i] = 0;
         } 
         for (int j = 0; j< num_ver; j++){
-            if(floy_weigh[i][j] == -1 ){
+            if(floy_weigh[i][j] == -1){
                 floy_weigh[i][j] = 1000;
             }else if(floy_weigh[i][j] > 0){
                 previ[i][j] = i;
