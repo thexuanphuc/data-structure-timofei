@@ -13,17 +13,20 @@ shortest path in graph to guarantee triangle triangle inequality before held kar
 iterate through all pair of note, replace path between them with smaller path
 time comlexity O(v^3)
 space complexity O(v^2) -> if we only want to track the value shortest path*/
-std::vector<int> floy_warshall(const  graph_model& graph, vector<std::vector<int>>& floy_weigh){
+std::vector<int> floy_warshall(const  graph_model& graph, std::vector<std::vector<int>>& floy_weigh){
     floy_weigh = graph.matrix_weigh;
+   
     // std::vector<std::vector<int>> pre_note (graph.num_ver, std::vector<int> (graph.num_ver, -1));
+    
+    // prepare for floy warshall
     std::vector<int> pre_note(graph.num_ver , -1);
-    for(int i = 0; 0 < graph.num_ver; i++){
+    for(int i = 0; i < graph.num_ver; i++){
         if(floy_weigh[i][i] == -1){
-            flor_weigh[i][i] = 0;
+            floy_weigh[i][i] = 0;
         }
         for(int j = 0; j< graph.num_ver; j++){
             if (floy_weigh[i][j] == -1) {
-                floy_weigh[i][j] == 10000;
+                floy_weigh[i][j] = 1000000;
             }else pre_note[j] = i;
         }
     }
@@ -40,7 +43,6 @@ std::vector<int> floy_warshall(const  graph_model& graph, vector<std::vector<int
             }
         }
     }
-
     // print out the path that we replaced
         // for (int i = 0; i < graph.num_ver; i++){
         //     for (int j = 0; j < graph.num_ver; j++){
@@ -48,39 +50,57 @@ std::vector<int> floy_warshall(const  graph_model& graph, vector<std::vector<int
         //     }
         //     std::cout<< std::endl;
         // }
-    return pre_note;
+    
+    
+    return pre_note; // note that we updated to new weight value already
 }
 
 /* goal vertex_start -> vertex_end(==vertex_start)
 +idea: using dynamic programmning to go from vertex_start -> vertex_end (because 
 if the graph is directive, then DP only know the cost along that its executed, not the path forward)
-time complexity O(v^2 * 2^n)*/ 
-void held_karp(const  graph_model& graph, vector<std::vector<int>> weigh_max, int start){
+time complexity O(v^2 * 2^n)*/
+void held_karp(const  graph_model& graph, std::vector<std::vector<int>> weigh_max, int start){
     
     // terminal cost = cost directly from vertex_start to vertex i
-    // size of siries_ver is one now
-    std::vector<int>  cost(graph.num_ver, 1000);
-    std::vector<std::vector<int>> series_ver (graph.num_ver, std::vector<int> (start)); // initialize only with one element on each vector
+    // size of series vertex is one now
+    std::vector<int>  cost(graph.num_ver, 1000); // the min cost from start vertex to any others i-vertex
+    std::vector<std::list<int>> series_ver (graph.num_ver, std::list<int> (1, start)); // initialize only with one element on each vector
 
-    // initialize the cost
+    // initialize the cost go back from start to i
     for(int i = 0; i< graph.num_ver; i++){
-        cost[i] = weigh_max[start][graph.num_ver];
-        // series_ver[i] = start;
+        cost[i] = weigh_max[start][i];
+        // series_ver[i] = start; // already have the first vertex when initialized
     }
     
-    // loop untill we need the start vertex again, means after the size i of series reached N+1
-    for(int i = 1; i <= graph.num_ver + 1; i++){
-        // loop for each vertex
+    // loop untill we reach all others vertex, mean the number vertices in series reach n
+    for(int n = 1; n < graph.num_ver; n++){
+
+        // loop for each vertex, from start to all others vertices j, after go through n
         for (int j = 0; j< graph.num_ver; j++){
-            //find and update min cost from A to each vertex
-            
-                cost[j] = weigh_max[start][graph.num_ver];
-                series_ver[j].push_back(previous_vertex);
+            if(j != start){
 
+                int d = 0;  // d != j (because we need to extend the visited list)
+                            // d != start (because if we return to start, the number of vertices we went through is not n)
+                            // d from the list 
+                cost[j] = cost[d] + weigh_max[d][j];
+                // relaxation, get min cost(start->j) by checking all the vertex
+                for(int k = 1; k < graph.num_ver; k++){
+                    if(cost[j] < cost[k] + weigh_max[k][j]){
+                        d = k;
+                        cost[j] = cost[d] + weigh_max[d][j];
+                    } 
+                }
+                series_ver[j].assign(series_ver[d].begin(), series_ver[d].end());
+                series_ver[j].push_back(j);
+            }
         }
+    
     }
+    
+    // // now from all vertex we go back to vertex start
+    // i = graph.num_ver + 1
 
-    return cost;
+    // return cost;
 }
 
 int main(){
@@ -88,9 +108,15 @@ int main(){
     my_graph.input_list_of_egdes();
     my_graph.print_list_adjacency();
     my_graph.print_matrix_weight();
-    vector<std::vector<int>> new_weigh;
+    std::vector<std::vector<int>> new_weigh;
     // replace_inf(mygraph);
-    floy_warshall(my_graph,new_weigh);
+    floy_warshall(my_graph, new_weigh);
+    for(int i = 0; i< my_graph.num_ver; i++){
+        for(int j = 0; j < my_graph.num_ver; j++){
+            std::cout<< new_weigh[i][j] <<"\t";
+        }
+        std::cout<< std::endl;
+    }
     std::cout <<"enter first vertex: \n";
     char ch;
     while((ch = std::cin.get()) != '\n'){}
@@ -99,7 +125,7 @@ int main(){
     std::cout << home_town << std::endl;
     
     // in this, we compare, if using the replaced path, we need to print these note we go through
-    held_karp(my_graph, new_weigh, home_town);
+    // held_karp(my_graph, new_weigh, home_town);
 
     
     return 0;

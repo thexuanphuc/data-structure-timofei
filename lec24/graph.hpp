@@ -11,6 +11,8 @@
 #include <utility>
 #include <iterator>
 #include <queue>
+#include <list>
+
 class graph_model
 {
 public:
